@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FindIt | Mall Lost & Found</title>
+  <style>
+    :root {
+      --navy: #14213d;
+      --blue: #2764e7;
+      --light: #f3f6fc;
+      --line: #dce3ef;
+      --text: #26344a;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background: var(--light);
+      line-height: 1.5;
+    }
+
+    header {
+      background: var(--navy);
+      color: white;
+      padding: 18px 6%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .logo { font-size: 24px; font-weight: bold; }
+    nav a { color: white; text-decoration: none; margin-left: 18px; }
+
+    .hero {
+      background: linear-gradient(135deg, #14213d, #2764e7);
+      color: white;
+      padding: 65px 6%;
+    }
+
+    .hero h1 { font-size: clamp(32px, 5vw, 54px); margin: 0 0 12px; }
+    .hero p { max-width: 650px; font-size: 18px; }
+
+    main { max-width: 1150px; margin: auto; padding: 30px 20px 70px; }
+
+    .notice {
+      background: #fff7dc;
+      border-left: 5px solid #e3a90e;
+      padding: 15px 18px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+    }
+
+    .panel, .card {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      box-shadow: 0 5px 18px #14213d0a;
+    }
+
+    .panel { padding: 24px; margin: 25px 0; }
+    h2 { color: var(--navy); margin-top: 0; }
+
+    .filters, .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    label { display: block; font-weight: bold; margin-bottom: 6px; }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #bcc8da;
+      border-radius: 9px;
+      font: inherit;
+      background: white;
+    }
+
+    textarea { min-height: 95px; resize: vertical; }
+
+    button {
+      border: 0;
+      background: var(--blue);
+      color: white;
+      padding: 12px 18px;
+      border-radius: 9px;
+      cursor: pointer;
+      font: inherit;
+      font-weight: bold;
+    }
+
+    button:hover { background: #194dbb; }
+    button.secondary { background: var(--navy); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+      gap: 17px;
+    }
+
+    .card { padding: 20px; }
+    .card .icon { font-size: 43px; }
+    .card h3 { margin: 8px 0; color: var(--navy); }
+
+    .tag {
+      display: inline-block;
+      background: #e9f0ff;
+      color: #1649aa;
+      padding: 5px 10px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .card p { margin: 10px 0; }
+    .card button { width: 100%; margin-top: 8px; }
+
+    .steps { padding-left: 22px; }
+    .steps li { margin: 10px 0; }
+
+    .message {
+      display: none;
+      padding: 12px;
+      margin-top: 14px;
+      background: #e9f8ed;
+      border: 1px solid #a6d8b2;
+      border-radius: 8px;
+    }
+
+    footer {
+      text-align: center;
+      background: var(--navy);
+      color: white;
+      padding: 22px;
+    }
+
+    @media (max-width: 600px) {
+      header { display: block; }
+      nav { margin-top: 8px; }
+      nav a { margin: 0 15px 0 0; }
+      .filters, .form-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">🔎 FindIt</div>
+    <nav>
+      <a href="#items">Find an item</a>
+      <a href="#report">Report found item</a>
+      <a href="#how">How it works</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Lost something at the mall?</h1>
+    <p>Search items handed to help desks across the mall. Find a possible match, then contact the listed help desk for verification and collection.</p>
+  </section>
+
+  <main>
+    <div class="notice">
+      <strong>Safety:</strong> A photo or colour does not prove ownership. Help desk staff must check a claim before returning an item.
+    </div>
+
+    <section id="items" class="panel">
+      <h2>Search found items</h2>
+      <div class="filters">
+        <div>
+          <label for="search">Item name or location</label>
+          <input id="search" type="search" placeholder="Try bottle, wallet, food court...">
+        </div>
+        <div>
+          <label for="category">Category</label>
+          <select id="category">
+            <option value="">All categories</option>
+            <option>Accessories</option>
+            <option>Electronics</option>
+            <option>Clothing</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <p id="count"></p>
+      <div id="item-list" class="grid"></div>
+    </section>
+
+    <section id="how" class="panel">
+      <h2>How it works</h2>
+      <ol class="steps">
+        <li>A finder gives the item to a mall help desk.</li>
+        <li>The help desk records a general description and where the item is kept.</li>
+        <li>The owner searches this website for a possible match.</li>
+        <li>Help desk staff check the claim before handing over the item.</li>
+      </ol>
+    </section>
+
+    <section id="report" class="panel">
+      <h2>Add a found item — presentation demo</h2>
+      <p>This form adds an item only to <strong>your current browser</strong>. In a real mall, only authorised help desk staff should publish listings after receiving the item.</p>
+
+      <form id="report-form">
+        <div class="form-grid">
+          <div>
+            <label for="item-name">Item name</label>
+            <input id="item-name" required maxlength="60" placeholder="e.g. Water bottle">
+          </div>
+          <div>
+            <label for="item-category">Category</label>
+            <select id="item-category" required>
+              <option value="">Select category</option>
+              <option>Accessories</option>
+              <option>Electronics</option>
+              <option>Clothing</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div>
+            <label for="found-at">Found near</label>
+            <input id="found-at" required maxlength="60" placeholder="e.g. Food court">
+          </div>
+          <div>
+            <label for="desk">Holding help desk</label>
+            <select id="desk" required>
+              <option value="">Select help desk</option>
+              <option>Ground Floor Help Desk</option>
+              <option>First Floor Help Desk</option>
+              <option>Food Court Help Desk</option>
+            </select>
+          </div>
+        </div>
+        <p><button type="submit">Add demo item</button></p>
+        <div id="report-message" class="message" role="status"></div>
+      </form>
+    </section>
+
+    <section id="claim" class="panel" hidden>
+      <h2>Ask about an item</h2>
+      <p id="selected-item"></p>
+      <p>For this demo, describe a detail that is <strong>not visible in the listing</strong>. In a real system, the help desk would receive and review your claim privately.</p>
+      <form id="claim-form">
+        <label for="proof">Your identifying detail</label>
+        <textarea id="proof" required minlength="8" placeholder="Describe when and where you lost it, or a distinctive feature..."></textarea>
+        <p><button type="submit">Submit demo claim</button></p>
+        <div id="claim-message" class="message" role="status"></div>
+      </form>
+    </section>
+  </main>
+
+  <footer>FindIt · Shopping Mall Lost & Found · College project demo</footer>
+
+  <script>
+    const sampleItems = [
+      {
+        id: 1, name: "Water bottle", category: "Other",
+        foundAt: "Food court", desk: "Food Court Help Desk", icon: "🧴"
+      },
+      {
+        id: 2, name: "Earbuds case", category: "Electronics",
+        foundAt: "Cinema entrance", desk: "First Floor Help Desk", icon: "🎧"
+      },
+      {
+        id: 3, name: "Wallet", category: "Accessories",
+        foundAt: "Parking lift", desk: "Ground Floor Help Desk", icon: "👛"
+      },
+      {
+        id: 4, name: "Jacket", category: "Clothing",
+        foundAt: "Gaming zone", desk: "First Floor Help Desk", icon: "🧥"
+      }
+    ];
+
+    const storageKey = "findit-demo-items";
+    let savedItems = [];
+
+    try {
+      savedItems = JSON.parse(localStorage.getItem(storageKey)) || [];
+      if (!Array.isArray(savedItems)) savedItems = [];
+    } catch {
+      savedItems = [];
+    }
+
+    let selectedId = null;
+    const list = document.getElementById("item-list");
+    const search = document.getElementById("search");
+    const category = document.getElementById("category");
+
+    function makeElement(tag, text, className) {
+      const element = document.createElement(tag);
+      element.textContent = text;
+      if (className) element.className = className;
+      return element;
+    }
+
+    function renderItems() {
+      const query = search.value.trim().toLowerCase();
+      const chosenCategory = category.value;
+      const items = [...savedItems, ...sampleItems].filter(item => {
+        const matchesText = `${item.name} ${item.foundAt} ${item.desk}`
+          .toLowerCase().includes(query);
+        return matchesText && (!chosenCategory || item.category === chosenCategory);
+      });
+
+      list.replaceChildren();
+      document.getElementById("count").textContent =
+        `${items.length} possible ${items.length === 1 ? "match" : "matches"}`;
+
+      if (items.length === 0) {
+        list.append(makeElement("p", "No matching items found. Try another search."));
+        return;
+      }
+
+      items.forEach(item => {
+        const card = makeElement("article", "", "card");
+        card.append(makeElement("div", item.icon, "icon"));
+        card.append(makeElement("span", item.category, "tag"));
+        card.append(makeElement("h3", item.name));
+        card.append(makeElement("p", `Found near: ${item.foundAt}`));
+        card.append(makeElement("p", `Held at: ${item.desk}`));
+
+        const button = makeElement("button", "This may be mine");
+        button.type = "button";
+        button.addEventListener("click", () => {
+          selectedId = item.id;
+          document.getElementById("selected-item").textContent =
+            `${item.name} — ${item.desk}`;
+          document.getElementById("claim").hidden = false;
+          document.getElementById("claim-message").style.display = "none";
+          document.getElementById("claim").scrollIntoView({ behavior: "smooth" });
+        });
+
+        card.append(button);
+        list.append(card);
+      });
+    }
+
+    search.addEventListener("input", renderItems);
+    category.addEventListener("change", renderItems);
+
+    document.getElementById("report-form").addEventListener("submit", event => {
+      event.preventDefault();
+
+      const item = {
+        id: Date.now(),
+        name: document.getElementById("item-name").value.trim(),
+        category: document.getElementById("item-category").value,
+        foundAt: document.getElementById("found-at").value.trim(),
+        desk: document.getElementById("desk").value,
+        icon: "📦"
+      };
+
+      savedItems.unshift(item);
+      localStorage.setItem(storageKey, JSON.stringify(savedItems));
+      event.target.reset();
+      search.value = "";
+      category.value = "";
+      renderItems();
+
+      const message = document.getElementById("report-message");
+      message.textContent = "Demo item added on this browser. It is not visible to other visitors.";
+      message.style.display = "block";
+      document.getElementById("items").scrollIntoView({ behavior: "smooth" });
+    });
+
+    document.getElementById("claim-form").addEventListener("submit", event => {
+      event.preventDefault();
+      if (selectedId === null) return;
+
+      const message = document.getElementById("claim-message");
+      message.textContent =
+        "Demo claim recorded on this screen only. No information was sent to a help desk. In a real mall, staff would review your details before collection.";
+      message.style.display = "block";
+      event.target.reset();
+    });
+
+    renderItems();
+  </script>
+</body>
+</html>
